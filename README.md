@@ -31,11 +31,11 @@
 
 ## About
 
-<strong>\[ IMPORTANT \]: Brikcss follows semantic versioning. This package is currently at major version zero, which means <a href="https://semver.org/#spec-item-4" target="_blank">"anything may change at any time", and it "should not be considered stable"</a>.</strong>
+<strong>⚠️ IMPORTANT: Brikcss follows semantic versioning. This package is currently at major version zero, which means <a href="https://semver.org/#spec-item-4" target="_blank">"anything may change at any time", and it "should not be considered stable"</a>.</strong>
 
 Rollup config generator makes it easy to generate complex configurations for [RollupJS](https://rollupjs.org).
 
-## Contributing
+## Contributing 🙏
 
 We ❤️❤️❤️ contributions of any kind, whether it's bug reports, questions or feature requests, pull requests, and especially spreading some love about this project to your friends and co-workers!
 
@@ -43,17 +43,17 @@ We ❤️❤️❤️ contributions of any kind, whether it's bug reports, quest
 
 ## Environment support
 
-| Node | CLI | UMD | ES Module | Browser |
-| :--: | :-: | :-: | :-------: | :-----: |
-|  ✓   |  x  |  x  |     ✓     |    x    |
+| Node | CLI | Browser | UMD | ES Module |
+| :--: | :-: | :-----: | :-: | :-------: |
+|  ✅  | ❌  |   ❌    | ✅  |    ❌     |
 
-## Install
+## Install 📦
 
 ```bash
 npm install -D @brikcss/rollup-config-generator
 ```
 
-## Quick Start
+## Quick Start 🏁
 
 Get up and running in less than five minutes:
 
@@ -78,7 +78,7 @@ Get up and running in less than five minutes:
     export default configGen.create(userConfig, globals);
     ```
 
-## API
+## API 🤖
 
 _Note: ConfigGen contains many methods which are not documented here. [Check out the source code](./src/rollup-config-generator.js) to see what else is available._
 
@@ -121,6 +121,6 @@ const configGen = new ConfigGen({ base, sets, options, on });
     -   **`appendPlugins`** \{function\} `(config) => newPlugins` Appends plugins to `config.plugins`.
     -   **`output`** \{function\} `(output, config) => output` Modifies `config.output`.
 
-## License
+## License 📃
 
 [See License](LICENSE.md).
