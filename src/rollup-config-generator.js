@@ -17,7 +17,118 @@ const pkg = fs.readJsonSync(`${process.cwd()}/package.json`)
 const pkgName = pkg.name.includes('/') ? pkg.name.split('/')[1] : pkg.name
 
 // -------------------------------------------------------------------------------------------------
-// ConfigGen prototype methods and constructor.
+// ConfigGen constructor.
+//
+
+/**
+ * ConfigGen constructor.
+ *
+ * @class ConfigGen
+ * @param {Object} [config={}]  Configuration options.
+ * @param {Function} [config.base={}]  Base rollup config for all configurations to be generated.
+ * @param {Function} [config.sets={}]  Default "sets". A set creates multiple rollup configs from a
+ *     single config that has the "type" property.
+ */
+function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
+  this.base = merge({
+    input: `src/${pkgName}.js`,
+    external: Object.keys(pkg.dependencies),
+    watch: {
+      chokidar: true,
+      include: 'src/**',
+      exclude: 'node_modules/**',
+      clearScreen: true
+    },
+    output: {
+      compact: isProd,
+      sourcemap: !isProd
+    }
+  }, base)
+
+  this.sets = merge({
+    // Main browser module.
+    browser: [
+      {
+        target: null,
+        output: {
+          format: 'esm'
+        }
+      }, {
+        target: 'modern',
+        output: [{
+          format: 'umd'
+        }, {
+          format: 'esm'
+        }]
+      }, {
+        target: 'legacy',
+        output: {
+          format: 'umd'
+        }
+      }
+    ],
+    // Prebundled browser dependency.
+    dependency: [
+      {
+        target: 'modern',
+        output: [{
+          format: 'umd'
+        }, {
+          format: 'esm'
+        }]
+      }, {
+        target: 'legacy',
+        output: {
+          format: 'umd'
+        }
+      }
+    ],
+    // Node module.
+    node: [
+      {
+        target: 'node',
+        output: [
+          {
+            format: 'cjs'
+          }, {
+            format: 'esm'
+          }
+        ]
+      }
+    ],
+    // Node CLI module.
+    cli: [
+      {
+        target: 'node',
+        output: [
+          {
+            format: 'cjs',
+            intro: '#!/usr/bin/env node'
+          }, {
+            format: 'esm',
+            intro: '#!/usr/bin/env node'
+          }
+        ]
+      }
+    ]
+  }, sets || {})
+
+  this.on = on
+
+  this.options = merge({
+    outputDir: 'dist',
+    pkgMap: {
+      esm: 'module',
+      'esm:browser': 'browser',
+      cjs: 'main',
+      umd: 'umd',
+      cli: 'bin'
+    }
+  }, options)
+}
+
+// -------------------------------------------------------------------------------------------------
+// ConfigGen prototype.
 //
 
 ConfigGen.prototype.createBanner = function createBanner () {
@@ -31,6 +142,7 @@ ConfigGen.prototype.createBanner = function createBanner () {
  * @return {Object}  Babel configuration object.
  */
 ConfigGen.prototype.createBabelConfig = function createBabelConfig (target, babelConfig = {}) {
+  if (!target) return undefined
   const browsers = {
     modern: ['Chrome >= 61', 'Firefox >= 60', 'Safari >= 10.1', 'Edge >= 16'],
     legacy: ['IE 11', 'Chrome < 61', 'Firefox < 60', 'Safari < 10.1', 'Edge < 16']
@@ -47,14 +159,14 @@ ConfigGen.prototype.createBabelConfig = function createBabelConfig (target, babe
     include: [],
     exclude: []
   }
-  babelConfig = target ? merge({
+  babelConfig = merge({
     babelrc: false,
     presets: [['@babel/preset-env', babelPresetConfig]],
     plugins: [],
     include: [],
     exclude: [],
     runtimeHelpers: false
-  }, babelConfig) : undefined
+  }, babelConfig)
 
   // Determine babel targets.
   if (babelConfig) {
@@ -213,117 +325,6 @@ ConfigGen.prototype.create = function create (configs, globals = {}) {
     return result
   }, [])
   return configs.length > 1 ? configs : configs[0]
-}
-
-// -------------------------------------------------------------------------------------------------
-// ConfigGen constructor.
-//
-
-/**
- * ConfigGen constructor.
- *
- * @class ConfigGen
- * @param {Object} [config={}]  Configuration options.
- * @param {Function} [config.base={}]  Base rollup config for all configurations to be generated.
- * @param {Function} [config.sets={}]  Default "sets". A set creates multiple rollup configs from a
- *     single config that has the "type" property.
- */
-function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
-  this.base = merge({
-    input: `src/${pkgName}.js`,
-    external: Object.keys(pkg.dependencies),
-    watch: {
-      chokidar: true,
-      include: 'src/**',
-      exclude: 'node_modules/**',
-      clearScreen: true
-    },
-    output: {
-      compact: isProd,
-      sourcemap: !isProd
-    }
-  }, base)
-
-  this.sets = merge({
-    // Main browser module.
-    browser: [
-      {
-        target: null,
-        output: {
-          format: 'esm'
-        }
-      }, {
-        target: 'modern',
-        output: [{
-          format: 'umd'
-        }, {
-          format: 'esm'
-        }]
-      }, {
-        target: 'legacy',
-        output: {
-          format: 'umd'
-        }
-      }
-    ],
-    // Prebundled browser dependency.
-    dependency: [
-      {
-        target: 'modern',
-        output: [{
-          format: 'umd'
-        }, {
-          format: 'esm'
-        }]
-      }, {
-        target: 'legacy',
-        output: {
-          format: 'umd'
-        }
-      }
-    ],
-    // Node module.
-    node: [
-      {
-        target: 'node',
-        output: [
-          {
-            format: 'cjs'
-          }, {
-            format: 'esm'
-          }
-        ]
-      }
-    ],
-    // Node CLI module.
-    cli: [
-      {
-        target: 'node',
-        output: [
-          {
-            format: 'cjs',
-            intro: '#!/usr/bin/env node'
-          }, {
-            format: 'esm',
-            intro: '#!/usr/bin/env node'
-          }
-        ]
-      }
-    ]
-  }, sets || {})
-
-  this.on = on
-
-  this.options = merge({
-    outputDir: 'dist',
-    pkgMap: {
-      esm: 'module',
-      'esm:browser': 'browser',
-      cjs: 'main',
-      umd: 'umd',
-      cli: 'bin'
-    }
-  }, options)
 }
 
 // -------------------------------------------------------------------------------------------------

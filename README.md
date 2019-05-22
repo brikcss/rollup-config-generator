@@ -11,10 +11,10 @@
     <!-- Travis branch. -->
     <a href="https://github.com/brikcss/rollup-config-generator/tree/master"><img alt="Travis branch" src="https://img.shields.io/travis/rust-lang/rust/master.svg?style=flat-square&label=master"></a>
     <!-- Codacy. -->
-    <!-- <a href="https://www.codacy.com"><img alt="Codacy code quality" src="https://img.shields.io/codacy/grade/<enter token here>/master.svg?style=flat-square"></a> -->
-    <!-- <a href="https://www.codacy.com"><img alt="Codacy code coverage" src="https://img.shields.io/codacy/coverage/<enter token here>/master.svg?style=flat-square"></a> -->
+    <a href="https://www.codacy.com"><img alt="Codacy code quality" src="https://img.shields.io/codacy/grade/fd3fd8097cd4495bb3a4a8153fad480d/master.svg?style=flat-square"></a>
+    <a href="https://www.codacy.com"><img alt="Codacy code coverage" src="https://img.shields.io/codacy/coverage/fd3fd8097cd4495bb3a4a8153fad480d/master.svg?style=flat-square"></a>
     <!-- Coveralls -->
-    <!-- <a href='https://coveralls.io/github/brikcss/rollup-config-generator?branch=master'><img src='https://img.shields.io/coveralls/github/brikcss/rollup-config-generator/master.svg?style=flat-square' alt='Coverage Status' /></a> -->
+    <a href='https://coveralls.io/github/brikcss/rollup-config-generator?branch=master'><img src='https://img.shields.io/coveralls/github/brikcss/rollup-config-generator/master.svg?style=flat-square' alt='Coverage Status' /></a>
     <!-- JS Standard style. -->
     <a href="https://standardjs.com"><img alt="JavaScript Style Guide" src="https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square"></a>
     <!-- Prettier code style. -->
