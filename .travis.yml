@@ -24,23 +24,23 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-  # Prep for GitHub release.
-  - provider: script
-    skip_cleanup: true
-    script: bash ci/github-prep.sh
-    on:
-      branch: master
-  # Release to GitHub
-  - provider: releases
-    api_key: $GITHUB_TOKEN
-    draft: true
-    file_glob: true
-    file:
-      - '*.zip'
-      - '*.tgz'
-    skip_cleanup: true
-    on:
-      branch: master
+  # # Prep for GitHub release.
+  # - provider: script
+  #   skip_cleanup: true
+  #   script: bash scripts/github-prep.sh
+  #   on:
+  #     branch: master
+  # # Release to GitHub
+  # - provider: releases
+  #   api_key: $GITHUB_TOKEN
+  #   draft: true
+  #   file_glob: true
+  #   file:
+  #     - '*.zip'
+  #     - '*.tgz'
+  #   skip_cleanup: true
+  #   on:
+  #     branch: master
 
 # Semantic release to NPM and GitHub.
 # deploy:
