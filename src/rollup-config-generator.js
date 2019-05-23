@@ -4,12 +4,12 @@
 // Imports and setup.
 //
 
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import babel from 'rollup-plugin-babel'
-import { terser as uglify } from 'rollup-plugin-terser'
-import merge from '@brikcss/merge'
-import fs from 'fs-extra'
+const resolve = require('rollup-plugin-node-resolve')
+const commonjs = require('rollup-plugin-commonjs')
+const babel = require('rollup-plugin-babel')
+const uglify = require('rollup-plugin-terser').terser
+const merge = require('@brikcss/merge')
+const fs = require('fs-extra')
 
 // Configuration helpers.
 const isProd = ['production', 'test'].includes(process.env.NODE_ENV)
@@ -331,5 +331,5 @@ ConfigGen.prototype.create = function create (configs, globals = {}) {
 // Exports.
 //
 
-export default new ConfigGen()
-export { ConfigGen }
+module.exports.default = new ConfigGen()
+module.exports.ConfigGen = ConfigGen

@@ -1,5 +1,6 @@
 /* eslint-env jest */
-import configGen, { ConfigGen } from '../src/rollup-config-generator.js'
+const ConfigGen = require('../src/rollup-config-generator.js').ConfigGen
+const configGen = require('../src/rollup-config-generator.js').default
 
 const isProd = ['production', 'test'].includes(process.env.NODE_ENV)
 
