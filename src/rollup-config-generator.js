@@ -83,6 +83,20 @@ function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
         }
       }
     ],
+    // Browser IIFE (immediately invoked function execution).
+    iife: [
+      {
+        target: 'modern',
+        output: {
+          format: 'iife'
+        }
+      }, {
+        target: 'legacy',
+        output: {
+          format: 'iife'
+        }
+      }
+    ],
     // Node module.
     node: [
       {
