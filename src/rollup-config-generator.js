@@ -212,16 +212,22 @@ ConfigGen.prototype.createBabelConfig = function createBabelConfig (target, babe
  */
 ConfigGen.prototype.createPlugins = function createPlugins (config, on = {}) {
   const self = this
+  const isObject = Object.prototype.toString.call(config.plugins).slice(8, -1).toLowerCase() === 'object'
   let plugins = []
+
   // Prepend plugins at beginning.
+  if (isObject && config.plugins.prepend) plugins = plugins.concat(config.plugins.prepend)
   if (typeof on.prependPlugins === 'function') plugins = plugins.concat(on.prependPlugins(config))
   // Add common plugins for all targets.
   if (config.target) plugins.push(resolve(), commonjs())
   // Insert plugins in the middle, after resolves but before babel.
+  if (config.plugins instanceof Array) plugins = plugins.concat(config.plugins)
+  if (isObject && config.plugins.insert) plugins = plugins.concat(config.plugins.insert)
   if (typeof on.insertPlugins === 'function') plugins = plugins.concat(on.insertPlugins(config))
   // Add babel.
   if (config.target) plugins.push(babel(self.createBabelConfig(config.target)))
   // Append plugins to end.
+  if (isObject && config.plugins.append) plugins = plugins.concat(config.plugins.append)
   if (typeof on.appendPlugins === 'function') plugins = plugins.concat(on.appendPlugins(config))
   // Minimize in production.
   if (isProd) plugins.push(uglify())
@@ -301,9 +307,7 @@ ConfigGen.prototype.createConfig = function createConfig (config, globals = {}) 
   config.output = self.createOutput(config, globals)
 
   // Create plugins based on target(s).
-  if (!config.plugins) {
-    config.plugins = self.createPlugins(config)
-  }
+  config.plugins = self.createPlugins(config)
 
   // Return the config.
   delete config.type
