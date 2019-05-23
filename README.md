@@ -33,7 +33,77 @@
 
 <strong>⚠️ IMPORTANT: Brikcss follows semantic versioning. This package is currently at major version zero, which means <a href="https://semver.org/#spec-item-4" target="_blank">"anything may change at any time", and it "should not be considered stable"</a>.</strong>
 
-Rollup config generator makes it easy to generate complex configurations for [RollupJS](https://rollupjs.org).
+Rollup config generator makes it easy to generate complex configurations for [RollupJS](https://rollupjs.org). It can generate multiple rollup configurations from a single simple object.
+
+For example, this `.rolluprc.js` configuration:
+
+```js
+import configGen from "@brikcss/rollup-config-generator";
+export default configGen.create(
+    {
+        id: "my-browser-library",
+        type: "browser",
+        input: "src/browser.js"
+    },
+    {
+        id: "my-node-library",
+        type: "node",
+        input: "src/node.js"
+    },
+    {
+        id: "my-app",
+        type: "iife",
+        input: "src/js/main.js"
+    },
+    {
+        id: "my-one-off",
+        target: "4",
+        input: "src/one-off.js"
+    }
+);
+```
+
+does the following:
+
+-   `type='browser'`: generates Vanilla JS/ES Modules, as well as Universal Modules (UMD), intended for use in the browser:
+
+    -   `dist/esm/my-browser-library.js`: A Vanilla JS/ES module, not run through babel. Bundled version of the source code at `src/browser.js`.
+    -   `dist/esm/my-browser-library.browser.js`: Browser modules do not automatically node modules (i.e., modules in the `node_modules` folder). This Browser Module build is the same as the Vanilla module, except that import paths are resolved so that a browser can understand it. This build supports any modern browser that supports native browser modules.
+    -   `dist/umd/my-browser-library.js`: A Universal Module compiled with babel for modern browsers.
+    -   `dist/umd/my-browser-library.legacy.js`: Universal Module compiled for legacy browsers.
+
+-   `type='node'`: generates both Vanilla JS/ES and CommonJS/Node modules, intended for use in Node or CommonJS environments:
+
+    -   `dist/esm/my-node-library.js`: A Vanilla JS/ES module bundle of the source code.
+    -   `dist/cjs/my-node-library.js`: A CommonJS/Node module, compiled with babel to target Node 9+ (configurable).
+
+-   `type='iife'`: generates IIFE (immediately invoked function execution) bundles for use in the browser:
+
+    -   `dist/iife/my-app.js`: IIFE compiled for modern browsers.
+    -   `dist/iife/my-app.legacy.js`: IIFE compiled for legacy browsers.
+
+-   `target='4'` without the `type` compiles a single CommonJS/Node module for Node 4+. _Note: If no `type` property exists, a single rollup config is created. Use the `target` property to use Babel to target a specific environment, which can be `modern` (browser), `legacy` (browser), or a number (Node), which targets that version of Node and newer._
+
+    -   `dist/cjs/my-one-off.js`: A CommonJS/Node module compiled for Node 4+.
+
+_Look through [the tests](./test/generator.spec.js) for complete examples of how exactly `ConfigGen` generates rollup configurations._
+
+### Including modern and legacy browser builds
+
+To include scripts for both modern and legacy browsers, insert both scripts into your markup as follows:
+
+```html
+<script
+    type="module"
+    src="node_modules/<modulePath>/dist/umd/my-browser-library.js"
+></script>
+<script
+    nomodule
+    src="node_modules/<modulePath>/dist/umd/my-browser-library.legacy.js"
+></script>
+```
+
+This takes advantage of native browser technologies to use the modern version if the browser supports modules, and the legacy version if it does not. Hopefully you're starting to see the power of how this works. Modern browsers get served a modern build, which is typically much smaller and more performant than the legacy build, while legacy browsers can still be easily supported.
 
 ## Contributing 🙏
 

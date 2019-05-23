@@ -249,7 +249,7 @@ ConfigGen.prototype.createOutput = function createOutput (config, globals = {}) 
   // Create default properties for each output.
   config.output = config.output.map(o => {
     // Ensure format exists.
-    if (!o.format) o.format = 'esm'
+    if (!o.format) o.format = !isNaN(config.target) ? 'cjs' : 'esm'
     // Ensure file exists.
     if (!o.file) {
       // If it's the parent module, use fields from package.json.
