@@ -32,7 +32,7 @@ const pkgName = pkg.name.includes('/') ? pkg.name.split('/')[1] : pkg.name
 function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
   this.base = merge({
     input: `src/${pkgName}.js`,
-    external: Object.keys(pkg.dependencies),
+    external: pkg.dependencies ? Object.keys(pkg.dependencies) : [],
     watch: {
       chokidar: true,
       include: 'src/**',
