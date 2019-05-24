@@ -1,6 +1,7 @@
 /* eslint-env jest */
 const ConfigGen = require('../src/rollup-config-generator.js').ConfigGen
 const configGen = require('../src/rollup-config-generator.js').default
+const pkg = require('../package.json')
 
 const isProd = ['production', 'test'].includes(process.env.NODE_ENV)
 
@@ -206,7 +207,7 @@ describe('rollup-config-generator()', () => {
       }
     ]
     config.forEach((c, i) => expect(c).toMatchObject(Object.assign({
-      external: [],
+      external: Object.keys(pkg.dependencies),
       watch: {
         chokidar: true,
         include: 'src/**',
@@ -221,7 +222,7 @@ describe('rollup-config-generator()', () => {
     const customGen = new ConfigGen({
       base: {
         input: 'testing.js',
-        external: [],
+        external: Object.keys(pkg.dependencies),
         watch: {
           chokidar: false
         }
@@ -238,7 +239,7 @@ describe('rollup-config-generator()', () => {
 
     expect(customGen.base).toMatchObject({
       input: 'testing.js',
-      external: [],
+      external: Object.keys(pkg.dependencies),
       watch: {
         chokidar: false,
         include: 'src/**',
