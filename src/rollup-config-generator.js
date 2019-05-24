@@ -114,12 +114,10 @@ function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
     cli: [
       {
         target: 'node',
-        output: [
-          {
-            format: 'cjs',
-            banner: '#!/usr/bin/env node'
-          }
-        ]
+        output: {
+          format: 'cjs',
+          banner: '#!/usr/bin/env node'
+        }
       }
     ]
   }, sets || {})

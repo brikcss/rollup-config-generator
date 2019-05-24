@@ -217,6 +217,33 @@ describe('rollup-config-generator()', () => {
     }, expected[i])))
   })
 
+  it('creates a cli config', () => {
+    expect.assertions(1)
+    const config = configGen.create([
+      {
+        type: 'cli',
+        input: 'src/cli.js',
+        output: { file: 'bin/my-cli.js' }
+      }
+    ])
+
+    expect(config).toMatchObject({
+      input: 'src/cli.js',
+      output: {
+        compact: isProd,
+        sourcemap: !isProd,
+        format: 'cjs',
+        file: 'bin/my-cli.js'
+      },
+      plugins: [
+        { name: 'node-resolve' },
+        { name: 'commonjs' },
+        { name: 'babel' },
+        { name: 'terser' }
+      ]
+    })
+  })
+
   it('creates a custom generator', () => {
     expect.assertions(2)
     const customGen = new ConfigGen({
