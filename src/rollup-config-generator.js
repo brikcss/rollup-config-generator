@@ -117,10 +117,7 @@ function ConfigGen ({ base = {}, sets = {}, options = {}, on = {} } = {}) {
         output: [
           {
             format: 'cjs',
-            intro: '#!/usr/bin/env node'
-          }, {
-            format: 'esm',
-            intro: '#!/usr/bin/env node'
+            banner: '#!/usr/bin/env node'
           }
         ]
       }
