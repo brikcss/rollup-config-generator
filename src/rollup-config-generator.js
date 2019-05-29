@@ -275,10 +275,10 @@ ConfigGen.prototype.createOutput = function createOutput (config, globals = {}) 
       } else {
         o.file = `${self.options.outputDir ? `${self.options.outputDir}/` : ''}${o.format}/${(config.pkg && config.pkg.name) ? `${pkgName(config.pkg)}.js` : path.basename(config.input)}`
       }
-      // Add differentiation between same file names.
-      if ((config.target === 'legacy' || config.target === 'modern') && !o.file.includes(config.target)) {
-        o.file = o.file.replace('.js', `.${config.target}.js`)
-      }
+    }
+    // Add differentiation between same file names.
+    if (config.target === 'legacy' && !o.file.includes('legacy')) {
+      o.file = o.file.replace('.js', '.legacy.js').replace('.modern', '')
     }
     // If pkg exists, create a banner.
     if (!o.banner && config.pkg) {
