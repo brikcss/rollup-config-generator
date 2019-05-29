@@ -2,10 +2,6 @@
 
 module.exports = {
   linters: {
-    '{lib,bin,esm,browser,umd}/*.js': [
-      'npx node-minify --compressor uglify-es --input *.js --output $1.js',
-      'git add'
-    ],
     '*.js': ['standard --fix', 'git add'],
     '*.json': ['prettier --parser json --write', 'git add'],
     '*.md': ['prettier --parser markdown --write', 'git add']

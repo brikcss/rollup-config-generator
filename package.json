@@ -1,6 +1,6 @@
 {
   "name": "@brikcss/rollup-config-generator",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Config generator for RollupJS.",
   "author": "Brikcss <https://github.com/brikcss>",
   "contributors": ["The Zimmee <thezimmee@gmail.com>"],
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@brikcss/git-hooks": "^2.2.1",
-    "@brikcss/merge": "1.0.7",
+    "@brikcss/merge": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "codacy-coverage": "3.4.0",
     "concurrently": "4.1.0",
@@ -34,7 +34,7 @@
   },
   "files": ["src"],
   "bin": {},
-  "main": "./src/rollup-config-generator.js",
+  "main": "./src/rollup-config-generator.min.js",
   "homepage": "https://github.com/brikcss/rollup-config-generator",
   "repository": {
     "type": "git",

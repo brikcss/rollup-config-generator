@@ -6,29 +6,21 @@ const pkg = require('../package.json')
 const isProd = ['production', 'test'].includes(process.env.NODE_ENV)
 
 describe('rollup-config-generator()', () => {
-  it('creates a complex config', () => {
-    expect.assertions(7)
+  it('creates browser configs with globals', () => {
+    expect.assertions(5)
     const config = configGen.create([
       {
         type: 'browser',
-        id: 'webalias',
-        input: 'src/webalias.js',
-        output: {
-          banner: configGen.createBanner()
-        }
+        input: 'src/webalias.js'
       }, {
         type: 'dependency',
-        id: 'hyperhtml',
-        input: 'node_modules/hyperhtml/esm'
-      }, {
-        type: 'dependency',
-        id: 'element',
-        input: 'node_modules/@brikcss/element/dist/esm/brik-element.js'
+        pkg: require('../node_modules/@babel/preset-env/package.json'),
+        input: 'node_modules/@babel/preset-env/lib'
       }
     ], {
       umd (output, config) {
         output.exports = 'named'
-        output.name = config.id === 'hyperhtml' ? 'brikcss.html' : 'brikcss.elements'
+        output.name = (config.pkg && config.pkg.name.includes('preset-env')) ? 'babel.preset' : 'brikcss.elements'
         output.globals = {
           '@brikcss/element': 'brikcss',
           hyperhtml: 'brikcss.html'
@@ -47,33 +39,33 @@ describe('rollup-config-generator()', () => {
           compact: isProd,
           sourcemap: !isProd,
           format: 'esm',
-          banner: '/*! @brikcss/rollup-config-generator | @author Brikcss <https://github.com/brikcss> | @reference (https://github.com/brikcss/rollup-config-generator) */\n',
-          file: 'dist/esm/webalias.js'
+          banner: '/*! @brikcss/rollup-config-generator.js | @author Brikcss <https://github.com/brikcss> | @reference https://github.com/brikcss/rollup-config-generator */\n',
+          file: 'dist/esm/rollup-config-generator.js'
         },
         plugins: [
           { name: 'terser' }
         ]
-      },
-      {
+      }, {
         input: 'src/webalias.js',
         output: [
           {
             compact: isProd,
             sourcemap: !isProd,
             format: 'umd',
-            file: 'dist/umd/webalias.js',
+            file: 'dist/umd/rollup-config-generator.modern.js',
             exports: 'named',
             name: 'brikcss.elements',
             globals: {
               '@brikcss/element': 'brikcss',
               hyperhtml: 'brikcss.html'
-            }
+            },
+            banner: '/*! @brikcss/rollup-config-generator.js | @author Brikcss <https://github.com/brikcss> | @reference https://github.com/brikcss/rollup-config-generator */\n'
           },
           {
             compact: isProd,
             sourcemap: !isProd,
             format: 'esm',
-            file: 'dist/esm/webalias.js'
+            file: 'dist/esm/rollup-config-generator.modern.js'
           }
         ],
         plugins: [
@@ -82,15 +74,14 @@ describe('rollup-config-generator()', () => {
           { name: 'babel' },
           { name: 'terser' }
         ]
-      },
-      {
+      }, {
         input: 'src/webalias.js',
         output: {
           compact: isProd,
           sourcemap: !isProd,
           format: 'umd',
-          banner: '/*! @brikcss/rollup-config-generator | @author Brikcss <https://github.com/brikcss> | @reference (https://github.com/brikcss/rollup-config-generator) */\n',
-          file: 'dist/umd/webalias.legacy.js',
+          banner: '/*! @brikcss/rollup-config-generator.js | @author Brikcss <https://github.com/brikcss> | @reference https://github.com/brikcss/rollup-config-generator */\n',
+          file: 'dist/umd/rollup-config-generator.legacy.js',
           exports: 'named',
           name: 'brikcss.elements',
           globals: {
@@ -104,17 +95,16 @@ describe('rollup-config-generator()', () => {
           { name: 'babel' },
           { name: 'terser' }
         ]
-      },
-      {
-        input: 'node_modules/hyperhtml/esm',
+      }, {
+        input: 'node_modules/@babel/preset-env/lib',
         output: [
           {
             compact: isProd,
             sourcemap: !isProd,
             format: 'umd',
-            file: 'dist/umd/hyperhtml.js',
+            file: 'dist/umd/preset-env.modern.js',
             exports: 'named',
-            name: 'brikcss.html',
+            name: 'babel.preset',
             globals: {
               '@brikcss/element': 'brikcss',
               hyperhtml: 'brikcss.html'
@@ -124,7 +114,7 @@ describe('rollup-config-generator()', () => {
             compact: isProd,
             sourcemap: !isProd,
             format: 'esm',
-            file: 'dist/esm/hyperhtml.js'
+            file: 'dist/esm/preset-env.modern.js'
           }
         ],
         plugins: [
@@ -135,64 +125,14 @@ describe('rollup-config-generator()', () => {
         ]
       },
       {
-        input: 'node_modules/hyperhtml/esm',
+        input: 'node_modules/@babel/preset-env/lib',
         output: {
           compact: isProd,
           sourcemap: !isProd,
           format: 'umd',
-          file: 'dist/umd/hyperhtml.legacy.js',
+          file: 'dist/umd/preset-env.legacy.js',
           exports: 'named',
-          name: 'brikcss.html',
-          globals: {
-            '@brikcss/element': 'brikcss',
-            hyperhtml: 'brikcss.html'
-          }
-        },
-        plugins: [
-          { name: 'node-resolve' },
-          { name: 'commonjs' },
-          { name: 'babel' },
-          { name: 'terser' }
-        ]
-      },
-      {
-        input: 'node_modules/@brikcss/element/dist/esm/brik-element.js',
-        output: [
-          {
-            compact: isProd,
-            sourcemap: !isProd,
-            format: 'umd',
-            file: 'dist/umd/element.js',
-            exports: 'named',
-            name: 'brikcss.elements',
-            globals: {
-              '@brikcss/element': 'brikcss',
-              hyperhtml: 'brikcss.html'
-            }
-          },
-          {
-            compact: isProd,
-            sourcemap: !isProd,
-            format: 'esm',
-            file: 'dist/esm/element.js'
-          }
-        ],
-        plugins: [
-          { name: 'node-resolve' },
-          { name: 'commonjs' },
-          { name: 'babel' },
-          { name: 'terser' }
-        ]
-      },
-      {
-        input: 'node_modules/@brikcss/element/dist/esm/brik-element.js',
-        output: {
-          compact: isProd,
-          sourcemap: !isProd,
-          format: 'umd',
-          file: 'dist/umd/element.legacy.js',
-          exports: 'named',
-          name: 'brikcss.elements',
+          name: 'babel.preset',
           globals: {
             '@brikcss/element': 'brikcss',
             hyperhtml: 'brikcss.html'
@@ -290,4 +230,6 @@ describe('rollup-config-generator()', () => {
       }]
     })
   })
+
+  it.skip('runs with output as a function', () => {})
 })
