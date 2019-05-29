@@ -52,7 +52,7 @@ describe('rollup-config-generator()', () => {
             compact: isProd,
             sourcemap: !isProd,
             format: 'umd',
-            file: 'dist/umd/rollup-config-generator.modern.js',
+            file: 'dist/umd/rollup-config-generator.js',
             exports: 'named',
             name: 'brikcss.elements',
             globals: {
@@ -65,7 +65,7 @@ describe('rollup-config-generator()', () => {
             compact: isProd,
             sourcemap: !isProd,
             format: 'esm',
-            file: 'dist/esm/rollup-config-generator.modern.js'
+            file: 'dist/esm/rollup-config-generator.js'
           }
         ],
         plugins: [
@@ -102,7 +102,7 @@ describe('rollup-config-generator()', () => {
             compact: isProd,
             sourcemap: !isProd,
             format: 'umd',
-            file: 'dist/umd/preset-env.modern.js',
+            file: 'dist/umd/preset-env.js',
             exports: 'named',
             name: 'babel.preset',
             globals: {
@@ -114,7 +114,7 @@ describe('rollup-config-generator()', () => {
             compact: isProd,
             sourcemap: !isProd,
             format: 'esm',
-            file: 'dist/esm/preset-env.modern.js'
+            file: 'dist/esm/preset-env.js'
           }
         ],
         plugins: [
