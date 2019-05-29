@@ -1,6 +1,6 @@
 {
   "name": "@brikcss/rollup-config-generator",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Config generator for RollupJS.",
   "author": "Brikcss <https://github.com/brikcss>",
   "contributors": ["The Zimmee <thezimmee@gmail.com>"],
@@ -34,7 +34,7 @@
   },
   "files": ["src"],
   "bin": {},
-  "main": "./src/rollup-config-generator.min.js",
+  "main": "./src/rollup-config-generator.js",
   "homepage": "https://github.com/brikcss/rollup-config-generator",
   "repository": {
     "type": "git",
