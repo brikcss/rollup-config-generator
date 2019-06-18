@@ -1,24 +1,24 @@
 {
   "name": "@brikcss/rollup-config-generator",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Config generator for RollupJS.",
   "author": "Brikcss <https://github.com/brikcss>",
   "contributors": ["The Zimmee <thezimmee@gmail.com>"],
   "dependencies": {
     "@babel/preset-env": "^7.4.5",
-    "rollup": "^1.11.3",
+    "@brikcss/merge": "^1.2.1",
+    "rollup": "^1.15.6",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-node-resolve": "^4.2.3",
-    "rollup-plugin-terser": "^4.0.4"
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.3",
+    "rollup-plugin-terser": "^5.0.0"
   },
   "devDependencies": {
     "@brikcss/git-hooks": "^2.2.1",
-    "@brikcss/merge": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "codacy-coverage": "3.4.0",
     "concurrently": "4.1.0",
-    "coveralls": "3.0.3",
+    "coveralls": "3.0.4",
     "fs-extra": "^8.0.1",
     "jest": "^24.8.0",
     "rimraf": "2.6.3"
