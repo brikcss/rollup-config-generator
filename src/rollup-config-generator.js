@@ -174,7 +174,7 @@ ConfigGen.prototype.createBabelConfig = function createBabelConfig (target, babe
     modern: ['Chrome >= 61', 'Firefox >= 60', 'Safari >= 10.1', 'Edge >= 16'],
     legacy: ['IE 11', 'Chrome < 61', 'Firefox < 60', 'Safari < 10.1', 'Edge < 16']
   }
-  let babelPresetConfig = {
+  const babelPresetConfig = {
     targets: {
       node: !isNaN(target) ? target : '9',
       browsers: browsers.modern

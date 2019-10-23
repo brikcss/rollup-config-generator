@@ -16,31 +16,32 @@ env: NODE_ENV=test
 before_script: npm prune -d
 script: npm test -d
 
+# Publish to NPM and GitHub.
 deploy:
-  # Publish to NPM.
+#   # Publish to NPM.
   - provider: npm
     email: thezimmee@gmail.com
     api_key: $NPM_TOKEN
     skip_cleanup: true
     on:
       branch: master
-  # # Prep for GitHub release.
-  # - provider: script
-  #   skip_cleanup: true
-  #   script: . github-zip
-  #   on:
-  #     branch: master
-  # # Release to GitHub
-  # - provider: releases
-  #   api_key: $GITHUB_TOKEN
-  #   draft: true
-  #   file_glob: true
-  #   file:
-  #     - '*.zip'
-  #     - '*.tgz'
-  #   skip_cleanup: true
-  #   on:
-  #     branch: master
+#   # Prep for GitHub release.
+#   - provider: script
+#     skip_cleanup: true
+#     script: . github-zip
+#     on:
+#       branch: master
+#   # Release to GitHub
+#   - provider: releases
+#     api_key: $GITHUB_TOKEN
+#     draft: true
+#     file_glob: true
+#     file:
+#       - '*.zip'
+#       - '*.tgz'
+#     skip_cleanup: true
+#     on:
+#       branch: master
 
 # Semantic release to NPM and GitHub.
 # deploy:
@@ -53,6 +54,7 @@ branches:
   only:
     - master
     - /^greenkeeper/.*$/
+
 # Semantic release to NPM and GitHub.
 # branches:
 #   except:
